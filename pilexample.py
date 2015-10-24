@@ -6,6 +6,7 @@
 #import statements
 from PIL import Image, ImageFilter, ImageShow
 import urllib, cStringIO
+import os
 
 #declare global variables
 testimgURL = "http://www.man7.org/tlpi/cover/TLPI-front-cover.png"
@@ -40,4 +41,24 @@ def filterFun(imgFile):
     imDetail = im.filter(ImageFilter.DETAIL)
     imDetail.save("ImageTesting/file_detail.png")
 
-filterFun(testFile)
+#filterFun(testFile)
+
+def filterBlur(imgURL):
+    imgFile = cStringIO.StringIO(urllib.urlopen(imgURL).read())
+    im = Image.open(imgFile)
+    return im.filter(ImageFilter.BLUR)
+    
+def filterSmooth(imgURL):
+    imgFile = cStringIO.StringIO(urllib.urlopen(imgURL).read())
+    im = Image.open(imgFile)
+    return im.filter(ImageFilter.SMOOTH)
+    
+def filterSharpen(imgURL):
+    imgFile = cStringIO.StringIO(urllib.urlopen(imgURL).read())
+    im = Image.open(imgFile)
+    return im.filter(ImageFilter.SHARPEN)
+    
+def filterDetail(imgURL):
+    imgFile = cStringIO.StringIO(urllib.urlopen(imgURL).read())
+    im = Image.open(imgFile)
+    return im.filter(ImageFilter.DETAIL)    
