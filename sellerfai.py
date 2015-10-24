@@ -68,17 +68,6 @@ def trainTextbook(textbook):
     result = clarifai.predict(textbook.imgURL, concept_name)
     print result['status']['message'], "%0.3f" % result['urls'][0]['score'], result['urls'][0]['url']
 
-    clarifai.train(concept_name2)
-
-    result = clarifai.predict(textbook.imgURL, concept_name2)
-    print result['status']['message'], "%0.3f" % result['urls'][0]['score'], result['urls'][0]['url']
-
-    clarifai.train(concept_name3)
-
-    result = clarifai.predict(textbook.imgURL, concept_name3)
-    print result['status']['message'], "%0.3f" % result['urls'][0]['score'], result['urls'][0]['url']
-
-
 
 textbooks = openWebPage.amazonSearchPage("http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dstripbooks&field-keywords=calculus+textbook")
 for tb in textbooks:

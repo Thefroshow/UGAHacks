@@ -61,25 +61,32 @@ def amazonSearchPage(amazonSearchUrl):
     textbooks = [] # to be returned 
     
     linksToVisit = []
-    file = urllib2.urlopen(amazonSearchUrl)
-    searchPageHTML = file.read() #whole html
-    for i in range(0,11):
-        indexAtResult = searchPageHTML.find("<li id=\"result_" + str(i))
-        stringFromResult = searchPageHTML[indexAtResult:]
-        #if string_from_result.find("Categories related") < string_from_result.find("href"):
-            #continue
-        hrefIndex = stringFromResult.find("href")
-        stringFromHref = stringFromResult[hrefIndex+6:]
-        endquoteIndex = stringFromHref.find("\"")
-        link = stringFromHref[:endquoteIndex]
-        linksToVisit.append(link)
-        searchPageHTML = stringFromHref[endquoteIndex:]
+    try:
+        file = urllib2.urlopen(amazonSearchUrl)
+        searchPageHTML = file.read() #whole html
+        for i in range(0,11):
+            indexAtResult = searchPageHTML.find("<li id=\"result_" + str(i))
+            stringFromResult = searchPageHTML[indexAtResult:]
+            #if string_from_result.find("Categories related") < string_from_result.find("href"):
+                #continue
+            hrefIndex = stringFromResult.find("href")
+            stringFromHref = stringFromResult[hrefIndex+6:]
+            endquoteIndex = stringFromHref.find("\"")
+            link = stringFromHref[:endquoteIndex]
+            linksToVisit.append(link)
+            searchPageHTML = stringFromHref[endquoteIndex:]
 
-    for link in linksToVisit:
-        time.sleep(1)
-        file_to_open = urllib2.urlopen(link)
-        full_html_get_features = file_to_open.read() 
-        textbooks.append(getPageFeatures(full_html_get_features)) #append textbook to textbooks
+        for link in linksToVisit:
+            time.sleep(1)
+            file_to_open = urllib2.urlopen(link)
+            full_html_get_features = file_to_open.read() 
+            tb = getPageFeatures(full_html_get_features)
+            textbooks.append(tb)
+    except urllib2.HTTPError:
+        print "OpenWebPage Error in web request, sleep for 2 seconds and try function again."
+        time.sleep(2)
+        return amazonSearchPage(amazonSearchUrl)
+        #append textbook to textbooks
     #print linksToVisit
     return textbooks
 
@@ -150,7 +157,7 @@ def getPageFeatures(file_str):
         #print "FILE FROM QUOTE"
         #print file_from_quote[:500]
         int_endquote = file_from_quote.find("<")
-        ISBN_substring = file_from_quote[:int_endquote]
+        ISBN_substring = file_from_quote[:int_endquote].replace(" ", "_")
         #print ISBN_substring
         
     return Textbook(imgurl_substring,titleText_Split,ISBN_substring) #to be returned when filled
