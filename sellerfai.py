@@ -5,8 +5,8 @@
 #[endpoint] => http://research.api.sellerlabs.com/
 #[key] => 1445656217|slapi|c546db3b045236ccad072dea3d86317b
 
-#from clarifai_basic import ClarifaiCustomModel
-#from clarifai.client import ClarifaiApi
+from clarifai_basic import ClarifaiCustomModel
+from clarifai.client import ClarifaiApi
 import urllib2
 import sys
 import json
