@@ -11,7 +11,3 @@ def alphaToNumeric(alpha):
     s9 = s8.replace("I","8")
     s10 = s9.replace("J","9")
     return s10
-    
-str = "ABCDCAFFGX"
-str_decoded = alphaToNumeric(str)
-print str_decoded
