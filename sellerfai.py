@@ -36,7 +36,57 @@ if(!(imgFile.endsWith(".jpeg") || imgFile.endsWith(".png") || imgFile.endsWith("
     sys.exit(0)
 '''
 
+#clarifai = ClarifaiCustomModel()
+
+def trainTextbook(textbook):
+    clarifai = ClarifaiCustomModel()
+    
+    con_name = textbook.isbn.replace(" ","B_")
+    concept_name = con_name.replace("\"","")
+
+    concept_name = "Calculus"
+    concept_name2 = "ISBN300"
+    concept_name3 = con_name
+    
+
+    PHISH_POSITIVES = [
+        textbook.imgURL
+        ]
+    
+    for positive_example in PHISH_POSITIVES:
+        clarifai.positive(positive_example, concept_name)
+        
+        PHISH_NEGATIVES = [
+            ]
+        
+        for negative_example in PHISH_NEGATIVES:
+            clarifai.negative(negative_example, concept_name)
+            
+            
+    clarifai.train(concept_name)        
+
+    result = clarifai.predict(textbook.imgURL, concept_name)
+    print result['status']['message'], "%0.3f" % result['urls'][0]['score'], result['urls'][0]['url']
+
+    clarifai.train(concept_name2)
+
+    result = clarifai.predict(textbook.imgURL, concept_name2)
+    print result['status']['message'], "%0.3f" % result['urls'][0]['score'], result['urls'][0]['url']
+
+    clarifai.train(concept_name3)
+
+    result = clarifai.predict(textbook.imgURL, concept_name3)
+    print result['status']['message'], "%0.3f" % result['urls'][0]['score'], result['urls'][0]['url']
+
+
+
 textbooks = openWebPage.amazonSearchPage("http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dstripbooks&field-keywords=calculus+textbook")
 for tb in textbooks:
     #tb.printSelf()
+    trainTextbook(tb)
+    #print tb.isbn
+    #print tb.imgURL
+    #result = clarifai.predict(tb.imgURL, tb.isbn)
+    #print result['status']['message'], "%0.3f" % result['urls'][0]['score'], result['urls'][0]['url']
     tb.printImgURL()
+
