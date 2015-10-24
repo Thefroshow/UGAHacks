@@ -3,22 +3,39 @@ import webbrowser
 from HTMLParser import HTMLParser
 from htmlentitydefs import name2codepoint
 import urllib2
+import time
 
+# a class to describe textbook products
+class Textbook:
+    def __init__(self, pic_url, title_input, isbn_input):
+        self.imgURL = pic_url
+        self.title = title_input
+        self.isbn = isbn_input
+    
+    def printSelf(self):
+        print self.imgURL 
+        print self.title
+        print self.isbn
+    def printImgURL(self):
+        print self.imgURL
+        
+    
 
 # create a subclass and override the handler methods
-class MyHTMLParser(HTMLParser):
-    imgList = []
-    titletext = []
-    def handle_starttag(self, tag, attrs):
-        if tag == "img":
-            for attr in attrs:
-                if attr == "src":
-                    imgList.append(attr)
-        #print "Encountered a start tag:", tag
-    def handle_endtag(self, tag):
-        print "Encountered an end tag :", tag
-    def handle_data(self, data):
-        print "Encountered some data  :", data
+
+#class MyHTMLParser(HTMLParser):
+#    imgList = []
+#    titletext = []
+#    def handle_starttag(self, tag, attrs):
+#        if tag == "img":
+#            for attr in attrs:
+#                if attr == "src":
+#                    imgList.append(attr)
+#        #print "Encountered a start tag:", tag
+#    def handle_endtag(self, tag):
+#        print "Encountered an end tag :", tag
+#    def handle_data(self, data):
+#        print "Encountered some data  :", data
 
 home = "http://bookscouter.com"
 ext1 = "/prices.php?isbn="
@@ -38,36 +55,51 @@ file_str_first = file.read() #whole html
 #print file_str
 
 start_str = file_str_first
-linksToVisit = []
+#linksToVisit = []
 
-for i in range(0,11):
-    int_from_result = start_str.find("<li id=\"result_" + str(i))
-    string_from_result = start_str[int_from_result:]
-#if string_from_result.find("Categories related") < string_from_result.find("href"):
-        #continue
-    int_href = string_from_result.find("href")
-    string_from_href = string_from_result[int_href+6:]
-    int_endquote = string_from_href.find("\"")
-    string_link = string_from_href[:int_endquote]
-    linksToVisit.append(string_link)
-    start_str = string_from_href[int_endquote:]
+def amazonSearchPage(amazonSearchUrl):
+    textbooks = [] # to be returned 
+    
+    linksToVisit = []
+    file = urllib2.urlopen(amazonSearchUrl)
+    searchPageHTML = file.read() #whole html
+    for i in range(0,11):
+        indexAtResult = searchPageHTML.find("<li id=\"result_" + str(i))
+        stringFromResult = searchPageHTML[indexAtResult:]
+        #if string_from_result.find("Categories related") < string_from_result.find("href"):
+            #continue
+        hrefIndex = stringFromResult.find("href")
+        stringFromHref = stringFromResult[hrefIndex+6:]
+        endquoteIndex = stringFromHref.find("\"")
+        link = stringFromHref[:endquoteIndex]
+        linksToVisit.append(link)
+        searchPageHTML = stringFromHref[endquoteIndex:]
 
-
-#print linksToVisit
-
+    for link in linksToVisit:
+        time.sleep(1)
+        file_to_open = urllib2.urlopen(link)
+        full_html_get_features = file_to_open.read() 
+        textbooks.append(getPageFeatures(full_html_get_features)) #append textbook to textbooks
+    #print linksToVisit
+    return textbooks
 
 
 def getPageFeatures(file_str):
+    
+    
 #find <div id="mainImageContainer"
     int_imgContainer = file_str.find("<div id=\"mainImageContainer\"")
     imgurl_substring = ""
+    titleText_Split = ""
+    ISBN_substring = ""
     if int_imgContainer != -1:
         file_from_Container = file_str[int_imgContainer:]
         http_int = file_from_Container.find("http")
         file_from_http = file_from_Container[http_int:]
         jpg_int = file_from_http.find("\"")
         imgurl_substring = file_from_http[: jpg_int]
-        print imgurl_substring
+        #print imgurl_substring
+        
     else:
         int_main_Image = file_str.find("<div id=\"main-image-container")
         file_from_main = file_str[int_main_Image:]
@@ -75,7 +107,8 @@ def getPageFeatures(file_str):
         file_from_http = file_from_main[http_int:]
         jpg_int = file_from_http.find("\"")
         imgurl_substring = file_from_http[: jpg_int]
-        print imgurl_substring
+        #print imgurl_substring
+        
     
 #find title
     int_titleSpan = file_str.find("<span id=\"productTitle\"")
@@ -86,7 +119,8 @@ def getPageFeatures(file_str):
     nextOpenTag_int = file_from_title.find("<")
     titleText_substring = file_from_title[:nextOpenTag_int]
     titleText_Split = titleText_substring.split()
-    print titleText_Split
+    #print titleText_Split
+    
 #find isbn
     int_ISBN = file_str.find("<div id=\"isbn_feature_div")
     ISBN_substring = ""
@@ -98,7 +132,8 @@ def getPageFeatures(file_str):
         file_from_endOfSpan = file_from_ISBN10[endOfSpan_int+2:]
         endOfISBN = file_from_endOfSpan.find("<")
         ISBN_substring = file_from_endOfSpan[:endOfISBN]
-        print ISBN_substring
+        #print ISBN_substring
+        
     else:
         int_details_table = file_str.find("id=\"productDetailsTable")
         file_from_table = file_str[int_details_table:]
@@ -116,13 +151,11 @@ def getPageFeatures(file_str):
         #print file_from_quote[:500]
         int_endquote = file_from_quote.find("<")
         ISBN_substring = file_from_quote[:int_endquote]
-        print ISBN_substring
+        #print ISBN_substring
+        
+    return Textbook(imgurl_substring,titleText_Split,ISBN_substring) #to be returned when filled
 
 
-for link in linksToVisit:
-    file_to_open = urllib2.urlopen(link)
-    full_html_get_features = file_to_open.read() 
-    getPageFeatures(full_html_get_features)
 
 
 
