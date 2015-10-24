@@ -12,6 +12,9 @@ import sys
 import json
 import openWebPage
 from openWebPage import Textbook
+import encode
+import decode
+import pilexample
 
 #image to tags
 #tags dictionary
@@ -39,53 +42,53 @@ if(!(imgFile.endsWith(".jpeg") || imgFile.endsWith(".png") || imgFile.endsWith("
 
 #clarifai = ClarifaiCustomModel()
 
-def trainTextbook(textbook):
+
+'''
+textbooks = openWebPage.amazonSearchPage("http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dstripbooks&field-keywords=calculus+textbook")
+
+for tb in textbooks:
+    trainTextbook(tb)
+'''
+
+
+
+def trainTextbook(textbook, textbooks):
     clarifai = ClarifaiCustomModel()
     
-    con_name = textbook.isbn.replace(" ","B_")
-<<<<<<< HEAD
-    concept_name = con_name.replace("\"","")    
-=======
-    concept_name = con_name.replace("\"","")
-
-    concept_name1 = "Calculus"
-    concept_name2 = "ISBN7hi"
-    concept_name3 = con_name
     
-    #import pdb
-    #pdb.set_trace()
-    
->>>>>>> ae787f6a0ee05eac132d99dfbf95b504abd333bc
+    concept_name = encode.NumericToAlpha(textbook.isbn[1:]) 
 
     PHISH_POSITIVES = [
         textbook.imgURL
+        #pilexample.filterBlur(textbook.imgURL)
         ]
     
     for positive_example in PHISH_POSITIVES:
-        clarifai.positive(positive_example, concept_name2)
+        clarifai.positive(positive_example, concept_name)
         
-        PHISH_NEGATIVES = [
-            ]
+        PHISH_NEGATIVES = []
         
+        for t in textbooks:
+            if t != textbook:
+                PHISH_NEGATIVES.append(t.imgURL)
+
+        
+
         for negative_example in PHISH_NEGATIVES:
-            clarifai.negative(negative_example, concept_name2)
+            clarifai.negative(negative_example, concept_name)
             
             
-    clarifai.train(concept_name2)
+    clarifai.train(concept_name)
            
 
-    result = clarifai.predict(textbook.imgURL, concept_name2)
+    result = clarifai.predict(textbook.imgURL, concept_name)
     print result['status']['message'], "%0.3f" % result['urls'][0]['score'], result['urls'][0]['url']
     print result
 
 
-textb = Textbook("http://i.imgur.com/Lr6Ncvdb.jpg","title","123")
-trainTextbook(textb)
-
-
-#exit(3)
-textbooks = openWebPage.amazonSearchPage("http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dstripbooks&field-keywords=calculus+textbook")
+urls = ["http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dstripbooks&field-keywords=calculus+textbook","http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=data+mining+textbook&rh=i%3Aaps%2Ck%3Adata+mining+textbook"]
+#for url in urls:
+textbooks = openWebPage.amazonSearchPage(urls[0])
 for tb in textbooks:
-    trainTextbook(tb)
-    tb.printImgURL()
-
+    trainTextbook(tb, textbooks)
+    
