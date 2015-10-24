@@ -8,7 +8,7 @@ concept = ClarifaiCustomModel()
 image_url = ""
 tag = ""
 
-#gib her the Dict
+
 ISBN_DICT = {tag:image_url}
 
 #Provide some positive example images for concept
