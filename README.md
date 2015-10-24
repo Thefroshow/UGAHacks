@@ -1,8 +1,8 @@
 # UGAHacks
 
-## Alex Hunt
-## Josh Harper
-## Richard Saney
+## Alex Hunt 678-596-4844
+## Josh Harper 706-201-0059
+## Richard Saney 770-356-6176 (from Powder Springs, GA)
 
 Hacking together a combination of the Clarifai and Seller Labs API's
 
