@@ -40,19 +40,15 @@ file_str_first = file.read() #whole html
 start_str = file_str_first
 linksToVisit = []
 
-for i in range(0,16):
-    print start_str[:100]
+for i in range(0,11):
     int_from_result = start_str.find("<li id=\"result_" + str(i))
     string_from_result = start_str[int_from_result:]
-    print string_from_result[:100]
 #if string_from_result.find("Categories related") < string_from_result.find("href"):
         #continue
     int_href = string_from_result.find("href")
     string_from_href = string_from_result[int_href+6:]
-    print string_from_href[:100]
     int_endquote = string_from_href.find("\"")
     string_link = string_from_href[:int_endquote]
-    print string_link
     linksToVisit.append(string_link)
     start_str = string_from_href[int_endquote:]
 
@@ -64,12 +60,23 @@ for i in range(0,16):
 def getPageFeatures(file_str):
 #find <div id="mainImageContainer"
     int_imgContainer = file_str.find("<div id=\"mainImageContainer\"")
-    file_from_Container = file_str[int_imgContainer:]
-    http_int = file_from_Container.find("http")
-    file_from_http = file_from_Container[http_int:]
-    jpg_int = file_from_http.find("\"")
-    imgurl_substring = file_from_http[: jpg_int]
-    print imgurl_substring
+    imgurl_substring = ""
+    if int_imgContainer != -1:
+        file_from_Container = file_str[int_imgContainer:]
+        http_int = file_from_Container.find("http")
+        file_from_http = file_from_Container[http_int:]
+        jpg_int = file_from_http.find("\"")
+        imgurl_substring = file_from_http[: jpg_int]
+        print imgurl_substring
+    else:
+        int_main_Image = file_str.find("<div id=\"main-image-container")
+        file_from_main = file_str[int_main_Image:]
+        http_int = file_from_main.find("http")
+        file_from_http = file_from_main[http_int:]
+        jpg_int = file_from_http.find("\"")
+        imgurl_substring = file_from_http[: jpg_int]
+        print imgurl_substring
+    
 #find title
     int_titleSpan = file_str.find("<span id=\"productTitle\"")
     file_from_TitleTag = file_str[int_titleSpan:]
@@ -82,16 +89,34 @@ def getPageFeatures(file_str):
     print titleText_Split
 #find isbn
     int_ISBN = file_str.find("<div id=\"isbn_feature_div")
-    file_from_ISBN = file_str[int_ISBN:]
-    isbn10_int = file_from_ISBN.find("ISBN-10")
-    file_from_ISBN10 = file_from_ISBN[isbn10_int:]
-    endOfSpan_int = file_from_ISBN10.find("\">")
-    file_from_endOfSpan = file_from_ISBN10[endOfSpan_int+2:]
-    endOfISBN = file_from_endOfSpan.find("<")
-    ISBN_substring = file_from_endOfSpan[:endOfISBN]
-    print ISBN_substring
-
-
+    ISBN_substring = ""
+    if int_ISBN != -1:
+        file_from_ISBN = file_str[int_ISBN:]
+        isbn10_int = file_from_ISBN.find("ISBN-10")
+        file_from_ISBN10 = file_from_ISBN[isbn10_int:]
+        endOfSpan_int = file_from_ISBN10.find("\">")
+        file_from_endOfSpan = file_from_ISBN10[endOfSpan_int+2:]
+        endOfISBN = file_from_endOfSpan.find("<")
+        ISBN_substring = file_from_endOfSpan[:endOfISBN]
+        print ISBN_substring
+    else:
+        int_details_table = file_str.find("id=\"productDetailsTable")
+        file_from_table = file_str[int_details_table:]
+        int_Prod = file_from_table.find("<h2>Product Details")
+        file_from_Prod = file_from_table[int_Prod:]
+        #print "START FILE FROM PROD"
+        #print file_from_Prod[:500]
+        int_isbn = file_from_Prod.find("ISBN-10:")
+        file_from_isbn = file_from_Prod[int_isbn:]
+        #print "FILE FROM ISBN"
+        #print file_from_isbn[:500]
+        int_from_quote = file_from_isbn.find(">")
+        file_from_quote = file_from_isbn[int_from_quote+1:]
+        #print "FILE FROM QUOTE"
+        #print file_from_quote[:500]
+        int_endquote = file_from_quote.find("<")
+        ISBN_substring = file_from_quote[:int_endquote]
+        print ISBN_substring
 
 
 for link in linksToVisit:
