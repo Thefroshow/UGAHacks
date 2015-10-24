@@ -9,6 +9,7 @@ Hacking together a combination of the Clarifai and Seller Labs API's
 ###TODO General:
 
  - [ ] Clarifai
+   - [ ] Train on Calculus Textbook (front covers jpegs) 
    - [ ] Get Tags from image
    - [ ] Command Line image upload (from directory address)
    - [ ] Users to upload an image
