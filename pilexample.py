@@ -1,20 +1,34 @@
+##################
+# Pillow Example #
+# -Josh Harper   #
+##################
+
+#import statements
 from PIL import Image, ImageFilter, ImageShow
 import urllib, cStringIO
+
+#declare global variables
 testimgURL = "http://www.man7.org/tlpi/cover/TLPI-front-cover.png"
 testFile = cStringIO.StringIO(urllib.urlopen(testimgURL).read())
 
+#function for running an image file through filters and saving the results
+def filterFun(imgFile):
+    """FUN WITH PIL.ImageFilter!
+    A quick note about Emboss and Detail filters:
+    we do not want to use them..
+    emboss makes the image all grey and shit
+    and detail removes the color..
+    """
 
-def filterFun(file):
-    """FUN WITH PIL.ImageFilter!"""
-
-    im = Image.open(file)
+    #open and save original image file
+    im = Image.open(imgFile)
     im.save("ImageTesting/file_clean.png")
 
-    #blur dat shit
+    #BLUR
     imBlur = im.filter(ImageFilter.BLUR)
     imBlur.save("ImageTesting/file_blurred.png")
 
-    #smooth dat shit
+    #SMOOTH
     imSmooth = im.filter(ImageFilter.SMOOTH)
     imSmooth.save("ImageTesting/file_smooth.png")
 
