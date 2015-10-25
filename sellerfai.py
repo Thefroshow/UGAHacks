@@ -82,9 +82,10 @@ def trainTextbook(textbook, textbooks):
 
 
 
-
+'''
 urls = ["http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dstripbooks&field-keywords=calculus+textbook","http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=data+mining+textbook&rh=i%3Aaps%2Ck%3Adata+mining+textbook"]
 #for url in urls:
+
 textbooks = []
 
 for i in range(0,len(urlList.getURLLIST())):
@@ -97,12 +98,38 @@ for i in range(0,len(urlList.getURLLIST())):
         print "THE DARK LORD SUMMONS EVIL TCP/IP PACKETS"
         time.sleep(2)
         i = i-1
-
+'''
+'''
 i = 0
+textbooks = makeTextbookList(0)
 for tb in textbooks:
-    #print i
-    #tb.printSelf()
-    #trainTextbook(tb, textbooks)
-    #i = i +1
+    print i
+    tb.printSelf()
+    trainTextbook(tb, textbooks)
+    i = i +1
+'''
 
 #print len(textbooks)
+
+#call first time with 0 as param and empty textbooks
+def makeTextbookList(index, textbooks):
+    url_list = urlList.getURLLIST()
+    for i in range(index, len(url_list)):
+        try:
+            ith_url = urllib2.urlopen(url_list[i])
+            htmlPage = ith_url.read()
+            textbooks.append(openWebPage.getPageFeatures(htmlPage))
+        except urllib2.HTTPError:
+            print "Error sleep for 1 second"
+            time.sleep(2)
+            return makeTextbookList(i, textbooks)
+    return textbooks
+
+
+i = 0
+textbooks = []
+textbooks = makeTextbookList(0, textbooks)
+for tb in textbooks:
+    #print tb.title
+    trainTextbook(tb, textbooks)
+

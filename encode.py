@@ -13,6 +13,3 @@ def NumericToAlpha(num):
     s10 = s9.replace("9","J")
     return s10
 
-str = "013110362X"
-str_encoded = NumericToAlpha(str)
-print str_encoded
