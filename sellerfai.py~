@@ -94,6 +94,6 @@ for i in range(0,len(urlList.getURLLIST())):
         i = i-1
 
 for tb in textbooks:
-    trainTextbook(tb, textbooks)
+    #trainTextbook(tb, textbooks)
     tb.printSelf()
         
