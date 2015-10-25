@@ -13,53 +13,60 @@ from PIL import Image
 import isbnList
 import webbrowser
 import time
+from upload import upload_pic
+from imgurpython import ImgurClient
+
+def goToBookScouterURL(url_in):
+    clarifai = ClarifaiCustomModel()
+    probMax = 0
+    maxScoreISBN = ""
+    print "Searching textbooks...."
+    for isbn in isbnList.getISBNList():
+        result = clarifai.predict(url_in, encode.NumericToAlpha(isbn))
+        data = json.dumps(result)
+        jdata = json.loads(data)
+        jresults = jdata['urls'][0]['score']
+        #print str(jresults) + ":" + encode.NumericToAlpha(isbn)
+        if result['urls'][0]['score'] > probMax:
+            probMax = result['urls'][0]['score']
+            maxScoreISBN = isbn
+    isbn = maxScoreISBN
+    home = "http://bookscouter.com"
+    ext1 = "/prices.php?isbn="
+    ext2 = "&searchbutton=Sell"
+    url = home + ext1 + isbn + ext2
+    
+    print "Found Textbook"
+    print "ISBN-10 "+isbn+" with probablity: "+"%0.3f" % probMax
+    
+    webbrowser.open_new(url) #go to bookscouter.com
 
 #i have no idea what im doing lol
 
-clarifai = ClarifaiCustomModel()
-
+IMGURL = ""
 try:
-    if sys.argv[1] == None:
-        print "BAD"
-    else:
-        print "how did i get here?"
+    IMGURL = sys.argv[1]
 except IndexError:
-    print "gib url pls"
-    print "goodbye.."
-    time.sleep(3)
+    print "Usage: python workflow.py <imageURL>"
     sys.exit()
 
-probMax = 0
-maxScoreISBN = ""
-IMGURL = sys.argv[1]
+#check command-line arg
+# 1 url : do it
+# 2 local : upload to imgur, get url go to 1
+# 3 bad ? not handled
 
 
-for isbn in isbnList.getISBNList():
-<<<<<<< HEAD
-    print "OH NO, MY DATA IS SHOWING"
-    result = clarifai.predict(IMGURL, encode.NumericToAlpha(isbn))
-=======
-    print encode.NumericToAlpha(isbn)
-    result = clarifai.predict("http://ecx.images-amazon.com/images/I/51opYcR6kVL._SX415_BO1,204,203,200_.jpg", encode.NumericToAlpha(isbn))
->>>>>>> d20a1387e5af3562e6f2dd40e36b120610a7c710
-    data = json.dumps(result)
-    jdata = json.loads(data)
-    jresults = jdata['urls'][0]['score']
-    print str(jresults) + ":" + encode.NumericToAlpha(isbn)
-
-
-    if result['urls'][0]['score'] > probMax:
-        probMax = result['urls'][0]['score']
-        maxScoreISBN = isbn
-
-isbn = maxScoreISBN
-
-
-
-home = "http://bookscouter.com"
-ext1 = "/prices.php?isbn="
-ext2 = "&searchbutton=Sell"
-
-url = home + ext1 + isbn + ext2
-
-webbrowser.open_new(url)
+if IMGURL.startswith("http"):
+    print "Detected Image Type: URL"
+    goToBookScouterURL(IMGURL)
+else:
+    print "Detected Image Type: Local File"
+    # some imgur shit
+    # get that url
+  
+    client = ImgurClient("9b49c76280e81b6", "0e7bdd8b67230bdc28b419f611e098f07b6ee848")
+    image = upload_pic(client, IMGURL)
+    image_str = str(image['link'])
+    goToBookScouterURL(image_str)
+    
+    
