@@ -8,14 +8,14 @@ Hacking together a combination of the Clarifai and Seller Labs API's
 
 ###TODO General:
 
- - [ ] Clarifai
-   - [ ] Train on Calculus Textbook (front covers jpegs) 
-   - [ ] Get Tags from image
-   - [ ] Command Line image upload (from directory address)
-   - [ ] Users to upload an image
+ - [X] Clarifai
+   - [X] Train on Textbooks (front covers jpegs) 
+   - [X] Get Tags from image
+   - [X] Command Line image upload (from directory address)
+   - [X] Users to upload an image
  - [ ] SellerLabs Research-php
    - [ ] Http request to generate JSON
- - [ ] Python
-   - [ ] Parse JSON
-   - [ ] Sort results
-   - [ ] Go to Amazon product on webpage 
+ - [X] Python
+   - [X] Parse JSON
+   - [X] Sort results
+   - [X] Go to BookScouter webpage for specific book
