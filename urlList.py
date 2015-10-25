@@ -65,9 +65,4 @@ def getURLLIST():
         "http://www.amazon.com/Coders-Work-Reflections-Craft-Programming/dp/1430219483/ref=sr_1_82?s=books&ie=UTF8&qid=1445732274&sr=1-82&keywords=programming",
         "http://www.amazon.com/Linux-Programming-Interface-System-Handbook/dp/1593272200/ref=sr_1_83?s=books&ie=UTF8&qid=1445732274&sr=1-83&keywords=programming"  
         ]
-
    return websites
-   
-webs = getURLLIST()
-for w in webs:
-    print w
