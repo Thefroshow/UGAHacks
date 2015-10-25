@@ -36,7 +36,7 @@ def get_the_tags(image):
     return jresults
 '''
 '''
-imgFile = sys.argv[1]  #the jpeg passed in 
+imgFile = sys.argv[1]  #the jpeg passed in
 if(!(imgFile.endsWith(".jpeg") || imgFile.endsWith(".png") || imgFile.endsWith(".gif") || imgFile.endsWith(".jpg"))):
     print "Bad end file extension"
     sys.exit(0)
@@ -46,32 +46,32 @@ if(!(imgFile.endsWith(".jpeg") || imgFile.endsWith(".png") || imgFile.endsWith("
 
 def trainTextbook(textbook, textbooks):
     clarifai = ClarifaiCustomModel()
-    
-    
-    concept_name = encode.NumericToAlpha(textbook.isbn[1:]) 
+
+
+    concept_name = encode.NumericToAlpha(textbook.isbn[1:])
 
     PHISH_POSITIVES = [
         textbook.imgURL
         #pilexample.filterBlur(textbook.imgURL)
         ]
-    
+
     for positive_example in PHISH_POSITIVES:
         clarifai.positive(positive_example, concept_name)
-        
+
         PHISH_NEGATIVES = []
-        
+
         for t in textbooks:
             if t != textbook:
                 PHISH_NEGATIVES.append(t.imgURL)
 
-        
+
 
         for negative_example in PHISH_NEGATIVES:
             clarifai.negative(negative_example, concept_name)
-            
-            
+
+
     clarifai.train(concept_name)
-           
+
 
     result = clarifai.predict(textbook.imgURL, concept_name)
     print result['status']['message'], "%0.3f" % result['urls'][0]['score'], result['urls'][0]['url']
@@ -79,7 +79,7 @@ def trainTextbook(textbook, textbooks):
     print decode.alphaToNumeric(concept_name)
 
 
-    
+
 
 
 
@@ -94,7 +94,7 @@ for i in range(0,len(urlList.getURLLIST())):
     #print openWebPage.getPageFeatures(url)
         textbooks.append(openWebPage.getPageFeatures(full_html_get_features))
     except urllib2.HTTPError:
-        print "Error sleep for 2 seconds"
+        print "THE DARK LORD SUMMONS EVIL TCP/IP PACKETS"
         time.sleep(2)
         i = i-1
 
