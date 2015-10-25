@@ -73,8 +73,8 @@ def trainTextbook(textbook, textbooks):
 
     result = clarifai.predict(textbook.imgURL, concept_name)
     print result['status']['message'], "%0.3f" % result['urls'][0]['score'], result['urls'][0]['url']
-    print result
-
+    print concept_name
+    print decode.alphaToNumeric(concept_name)
 
 urls = ["http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dstripbooks&field-keywords=calculus+textbook","http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=data+mining+textbook&rh=i%3Aaps%2Ck%3Adata+mining+textbook"]
 #for url in urls:
