@@ -9,3 +9,4 @@ def get_the_fucking_tags(image):
     jdata = json.loads(data)
     jresults = jdata['results'][0]['result']['tag']['classes'][0]
     return jresults
+
