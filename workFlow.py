@@ -14,7 +14,7 @@ import isbnList
 import webbrowser
 import time
 
-#get the picture from file on computer
+#i have no idea what im doing lol
 
 clarifai = ClarifaiCustomModel()
 
