@@ -4,6 +4,7 @@ import urllib2
 import sys
 import json
 import openWebPage
+import webbrowser
 from openWebPage import Textbook
 import encode
 import decode
@@ -34,8 +35,13 @@ IMGURL = sys.argv[1]
 
 
 for isbn in isbnList.getISBNList():
+<<<<<<< HEAD
     print "OH NO, MY DATA IS SHOWING"
     result = clarifai.predict(IMGURL, encode.NumericToAlpha(isbn))
+=======
+    print encode.NumericToAlpha(isbn)
+    result = clarifai.predict("http://ecx.images-amazon.com/images/I/51opYcR6kVL._SX415_BO1,204,203,200_.jpg", encode.NumericToAlpha(isbn))
+>>>>>>> d20a1387e5af3562e6f2dd40e36b120610a7c710
     data = json.dumps(result)
     jdata = json.loads(data)
     jresults = jdata['urls'][0]['score']
