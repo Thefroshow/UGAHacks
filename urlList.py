@@ -1,3 +1,9 @@
+###############
+#Richard Saney#
+###############
+
+import openWebPage
+
 def getURLLIST():
    websites = [
         "http://www.amazon.com/Code-Language-Computer-Hardware-Software/dp/0735611319/ref=sr_1_1?s=books&ie=UTF8&qid=1445728549&sr=1-1&keywords=programming",
@@ -10,10 +16,10 @@ def getURLLIST():
         "http://www.amazon.com/Programming-Language-Brian-W-Kernighan/dp/0131103628/ref=sr_1_9?s=books&ie=UTF8&qid=1445728549&sr=1-9&keywords=programming",
         "http://www.amazon.com/Programming-Absolute-Beginner-Jerry-Ford/dp/1598633740/ref=sr_1_10?s=books&ie=UTF8&qid=1445728549&sr=1-10&keywords=programming",
         "http://www.amazon.com/Python-Programming-Introduction-Computer-Science/dp/1590282418/ref=sr_1_11?s=books&ie=UTF8&qid=1445728549&sr=1-11&keywords=programming",
-        "http://www.amazon.com/Programming-Windows-JavaScript-Developer-Reference-ebook/dp/B00LX6D0PM/ref=sr_1_12?s=books&ie=UTF8&qid=1445728549&sr=1-12&keywords=programming",
+        #"http://www.amazon.com/Programming-Windows-JavaScript-Developer-Reference-ebook/dp/B00LX6D0PM/ref=sr_1_12?s=books&ie=UTF8&qid=1445728549&sr=1-12&keywords=programming",
         "http://www.amazon.com/Pragmatic-Programmer-Journeyman-Master/dp/020161622X/ref=sr_1_13?s=books&ie=UTF8&qid=1445729409&sr=1-13&keywords=programming",
-        "http://www.amazon.com/Programming-Sucks-Aspiring-Developers-Guide-ebook/dp/B00MNFRKPS/ref=sr_1_14?s=books&ie=UTF8&qid=1445729423&sr=1-14&keywords=programming",
-        "http://www.amazon.com/Programming-Guide-Computer-LEARN-Design-ebook/dp/B00XS06I8C/ref=sr_1_15?s=books&ie=UTF8&qid=1445729423&sr=1-15&keywords=programming",
+        #"http://www.amazon.com/Programming-Sucks-Aspiring-Developers-Guide-ebook/dp/B00MNFRKPS/ref=sr_1_14?s=books&ie=UTF8&qid=1445729423&sr=1-14&keywords=programming",
+        #"http://www.amazon.com/Programming-Guide-Computer-LEARN-Design-ebook/dp/B00XS06I8C/ref=sr_1_15?s=books&ie=UTF8&qid=1445729423&sr=1-15&keywords=programming",
         "http://www.amazon.com/Coding-Dummies-Computers-Nikhil-Abraham/dp/1118951301/ref=sr_1_16?s=books&ie=UTF8&qid=1445729423&sr=1-16&keywords=programming",
         "http://www.amazon.com/Programming-Absolute-Beginners-Guide-3rd/dp/0789751984/ref=sr_1_17?s=books&ie=UTF8&qid=1445729423&sr=1-17&keywords=programming",
         "http://www.amazon.com/Programming-JAVA-JavaScript-Coding-Guide/dp/1514844915/ref=sr_1_18?s=books&ie=UTF8&qid=1445729423&sr=1-18&keywords=programming",
@@ -24,7 +30,7 @@ def getURLLIST():
         "http://www.amazon.com/Python-Informatics-Dr-Charles-Severance/dp/1492339245/ref=sr_1_25?s=books&ie=UTF8&qid=1445729655&sr=1-25&keywords=programming",
         "http://www.amazon.com/Practical-Programming-Strength-Training-Rippetoe/dp/0982522754/ref=sr_1_26?s=books&ie=UTF8&qid=1445729671&sr=1-26&keywords=programming",
         "http://www.amazon.com/Programming-Raspberry-Pi-Second-Getting/dp/1259587401/ref=sr_1_28?s=books&ie=UTF8&qid=1445729671&sr=1-28&keywords=programming",
-        "http://www.amazon.com/HTML5-Programming-Language-Computers-Technology-ebook/dp/B00W0GWX7K/ref=sr_1_29?s=books&ie=UTF8&qid=1445729671&sr=1-29&keywords=programming",
+        #"http://www.amazon.com/HTML5-Programming-Language-Computers-Technology-ebook/dp/B00W0GWX7K/ref=sr_1_29?s=books&ie=UTF8&qid=1445729671&sr=1-29&keywords=programming",
         "http://www.amazon.com/Elements-Programming-Interviews-Insiders-Guide/dp/1479274836/ref=sr_1_31?s=books&ie=UTF8&qid=1445729671&sr=1-31&keywords=programming",
         "http://www.amazon.com/Mathematics-Generic-Programming-Alexander-Stepanov/dp/0321942043/ref=sr_1_32?s=books&ie=UTF8&qid=1445729671&sr=1-32&keywords=programming",
         "http://www.amazon.com/Cracking-Coding-Interview-6th-Programming/dp/0984782850/ref=sr_1_33?s=books&ie=UTF8&qid=1445729671&sr=1-33&keywords=programming",
@@ -61,4 +67,7 @@ def getURLLIST():
         ]
 
    return websites
-                
+   
+webs = getURLLIST()
+for w in webs:
+    print w
