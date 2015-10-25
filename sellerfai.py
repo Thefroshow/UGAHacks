@@ -130,6 +130,6 @@ i = 0
 textbooks = []
 textbooks = makeTextbookList(0, textbooks)
 for tb in textbooks:
-    #print tb.title
-    trainTextbook(tb, textbooks)
+    print tb.isbn
+    #trainTextbook(tb, textbooks)
 

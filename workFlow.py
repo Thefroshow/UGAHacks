@@ -4,6 +4,7 @@ import urllib2
 import sys
 import json
 import openWebPage
+import webbrowser
 from openWebPage import Textbook
 import encode
 import decode
@@ -24,7 +25,7 @@ maxScoreISBN = ""
 
 for isbn in isbnList.getISBNList():
     print encode.NumericToAlpha(isbn)
-    result = clarifai.predict("http://ecx.images-amazon.com/images/I/51TMVvrxCbL._SX404_BO1,204,203,200_.jpg", encode.NumericToAlpha(isbn))
+    result = clarifai.predict("http://ecx.images-amazon.com/images/I/51opYcR6kVL._SX415_BO1,204,203,200_.jpg", encode.NumericToAlpha(isbn))
     data = json.dumps(result)
     jdata = json.loads(data)
     jresults = jdata['urls'][0]['score']
