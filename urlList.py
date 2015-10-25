@@ -1,5 +1,5 @@
 def getURLLIST():
-   return {
+   websites = [
         "http://www.amazon.com/Code-Language-Computer-Hardware-Software/dp/0735611319/ref=sr_1_1?s=books&ie=UTF8&qid=1445728549&sr=1-1&keywords=programming",
         "http://www.amazon.com/Beginning-Programming-All--Reference-Dummies/dp/0470108541/ref=sr_1_2?s=books&ie=UTF8&qid=1445728549&sr=1-2&keywords=programming",
         "http://www.amazon.com/Automate-Boring-Stuff-Python-Programming/dp/1593275994/ref=sr_1_3?s=books&ie=UTF8&qid=1445728549&sr=1-3&keywords=programming",
@@ -58,5 +58,7 @@ def getURLLIST():
         "http://www.amazon.com/iOS-Programming-Fundamentals-Swift-Basics/dp/1491936770/ref=sr_1_80?s=books&ie=UTF8&qid=1445732274&sr=1-80&keywords=programming",
         "http://www.amazon.com/Coders-Work-Reflections-Craft-Programming/dp/1430219483/ref=sr_1_82?s=books&ie=UTF8&qid=1445732274&sr=1-82&keywords=programming",
         "http://www.amazon.com/Linux-Programming-Interface-System-Handbook/dp/1593272200/ref=sr_1_83?s=books&ie=UTF8&qid=1445732274&sr=1-83&keywords=programming"  
-    }
+        ]
+
+   return websites
                 

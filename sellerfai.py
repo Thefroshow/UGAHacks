@@ -15,6 +15,7 @@ from openWebPage import Textbook
 import encode
 import decode
 import pilexample
+import urlList
 
 #image to tags
 #tags dictionary
@@ -78,7 +79,11 @@ def trainTextbook(textbook, textbooks):
 
 urls = ["http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dstripbooks&field-keywords=calculus+textbook","http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=data+mining+textbook&rh=i%3Aaps%2Ck%3Adata+mining+textbook"]
 #for url in urls:
-textbooks = openWebPage.amazonSearchPage(urls[0])
+textbooks = []
+
+for url in urlList.getURLIST():
+    textbooks.append(openWebPage.getPageFeatures(url))
+
 for tb in textbooks:
     trainTextbook(tb, textbooks)
     
