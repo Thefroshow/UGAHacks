@@ -36,7 +36,7 @@ def get_the_tags(image):
     return jresults
 '''
 '''
-imgFile = sys.argv[1]  #the jpeg passed in 
+imgFile = sys.argv[1]  #the jpeg passed in
 if(!(imgFile.endsWith(".jpeg") || imgFile.endsWith(".png") || imgFile.endsWith(".gif") || imgFile.endsWith(".jpg"))):
     print "Bad end file extension"
     sys.exit(0)
@@ -46,32 +46,32 @@ if(!(imgFile.endsWith(".jpeg") || imgFile.endsWith(".png") || imgFile.endsWith("
 
 def trainTextbook(textbook, textbooks):
     clarifai = ClarifaiCustomModel()
-    
-    
-    concept_name = encode.NumericToAlpha(textbook.isbn[1:]) 
+
+
+    concept_name = encode.NumericToAlpha(textbook.isbn[1:])
 
     PHISH_POSITIVES = [
         textbook.imgURL
         #pilexample.filterBlur(textbook.imgURL)
         ]
-    
+
     for positive_example in PHISH_POSITIVES:
         clarifai.positive(positive_example, concept_name)
-        
+
         PHISH_NEGATIVES = []
-        
+
         for t in textbooks:
             if t != textbook:
                 PHISH_NEGATIVES.append(t.imgURL)
 
-        
+
 
         for negative_example in PHISH_NEGATIVES:
             clarifai.negative(negative_example, concept_name)
-            
-            
+
+
     clarifai.train(concept_name)
-           
+
 
     result = clarifai.predict(textbook.imgURL, concept_name)
     print result['status']['message'], "%0.3f" % result['urls'][0]['score'], result['urls'][0]['url']
@@ -79,12 +79,13 @@ def trainTextbook(textbook, textbooks):
     print decode.alphaToNumeric(concept_name)
 
 
-    
 
 
 
+'''
 urls = ["http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dstripbooks&field-keywords=calculus+textbook","http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=data+mining+textbook&rh=i%3Aaps%2Ck%3Adata+mining+textbook"]
 #for url in urls:
+
 textbooks = []
 
 for i in range(0,len(urlList.getURLLIST())):
@@ -94,15 +95,41 @@ for i in range(0,len(urlList.getURLLIST())):
     #print openWebPage.getPageFeatures(url)
         textbooks.append(openWebPage.getPageFeatures(full_html_get_features))
     except urllib2.HTTPError:
-        print "Error sleep for 2 seconds"
+        print "THE DARK LORD SUMMONS EVIL TCP/IP PACKETS"
         time.sleep(2)
         i = i-1
-
+'''
+'''
 i = 0
+textbooks = makeTextbookList(0)
 for tb in textbooks:
-    #print i
-    #tb.printSelf()
-    #trainTextbook(tb, textbooks)
-    #i = i +1
+    print i
+    tb.printSelf()
+    trainTextbook(tb, textbooks)
+    i = i +1
+'''
 
 #print len(textbooks)
+
+#call first time with 0 as param and empty textbooks
+def makeTextbookList(index, textbooks):
+    url_list = urlList.getURLLIST()
+    for i in range(index, len(url_list)):
+        try:
+            ith_url = urllib2.urlopen(url_list[i])
+            htmlPage = ith_url.read()
+            textbooks.append(openWebPage.getPageFeatures(htmlPage))
+        except urllib2.HTTPError:
+            print "Error sleep for 1 second"
+            time.sleep(2)
+            return makeTextbookList(i, textbooks)
+    return textbooks
+
+
+i = 0
+textbooks = []
+textbooks = makeTextbookList(0, textbooks)
+for tb in textbooks:
+    #print tb.title
+    trainTextbook(tb, textbooks)
+
