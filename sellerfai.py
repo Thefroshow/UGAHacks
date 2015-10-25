@@ -78,6 +78,11 @@ def trainTextbook(textbook, textbooks):
     print concept_name
     print decode.alphaToNumeric(concept_name)
 
+
+    
+
+
+
 urls = ["http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dstripbooks&field-keywords=calculus+textbook","http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=data+mining+textbook&rh=i%3Aaps%2Ck%3Adata+mining+textbook"]
 #for url in urls:
 textbooks = []
@@ -93,7 +98,11 @@ for i in range(0,len(urlList.getURLLIST())):
         time.sleep(2)
         i = i-1
 
+i = 0
 for tb in textbooks:
-    trainTextbook(tb, textbooks)
+    #print i
     #tb.printSelf()
-        
+    #trainTextbook(tb, textbooks)
+    #i = i +1
+
+#print len(textbooks)

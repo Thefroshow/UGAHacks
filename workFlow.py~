@@ -8,21 +8,41 @@ from openWebPage import Textbook
 import encode
 import decode
 import pilexample
+from PIL import Image
+import isbnList
 
 
 #get the picture from file on computer
+bookPic = "/Users/Jaris/Desktop/GameProgrammingPatterns.jpg"
 
-for '''All isbns in our sample'''
-result = clarifai.predict('''file for the image that is taken''', '''Each isbn''')
-    print result['status']['message'], "%0.3f" % result['urls'][0]['score'], result['urls'][0]['url']
-    '''Take the highest score & isbn decoded'''
+clarifai = ClarifaiCustomModel()
 
+probMax = 0
+maxScoreISBN = ""
+
+
+
+for isbn in isbnList.getISBNList():
+    print encode.NumericToAlpha(isbn)
+    result = clarifai.predict(bookPic, encode.NumericToAlpha(isbn))
+    data = json.dumps(result)
+    jdata = json.loads(data)
+    jresults = jdata['urls'][0]['score']
+    print jresults
+
+
+    if result['urls'][0]['score'] > probMax:
+        probMax = result['urls'][0]['score']
+        maxScoreISBN = isbn
+
+isbn = maxScoreISBN
 
 
 
 home = "http://bookscouter.com"
 ext1 = "/prices.php?isbn="
-isbn = '''Decode the isbn from the tag'''
 ext2 = "&searchbutton=Sell"
 
 url = home + ext1 + isbn + ext2
+
+webbrowser.open_new(url)
