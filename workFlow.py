@@ -10,25 +10,36 @@ import decode
 import pilexample
 from PIL import Image
 import isbnList
-
+import webbrowser
+import time
 
 #get the picture from file on computer
-bookPic = "/Users/Jaris/Desktop/GameProgrammingPatterns.jpg"
 
 clarifai = ClarifaiCustomModel()
 
+try:
+    if sys.argv[1] == None:
+        print "BAD"
+    else:
+        print "how did i get here?"
+except IndexError:
+    print "gib url pls"
+    print "goodbye.."
+    time.sleep(3)
+    sys.exit()
+
 probMax = 0
 maxScoreISBN = ""
-
+IMGURL = sys.argv[1]
 
 
 for isbn in isbnList.getISBNList():
-    print encode.NumericToAlpha(isbn)
-    result = clarifai.predict("http://ecx.images-amazon.com/images/I/51TMVvrxCbL._SX404_BO1,204,203,200_.jpg", encode.NumericToAlpha(isbn))
+    print "OH NO, MY DATA IS SHOWING"
+    result = clarifai.predict(IMGURL, encode.NumericToAlpha(isbn))
     data = json.dumps(result)
     jdata = json.loads(data)
     jresults = jdata['urls'][0]['score']
-    print jresults
+    print str(jresults) + ":" + encode.NumericToAlpha(isbn)
 
 
     if result['urls'][0]['score'] > probMax:
