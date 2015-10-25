@@ -16,6 +16,7 @@ import encode
 import decode
 import pilexample
 import urlList
+import time
 
 #image to tags
 #tags dictionary
@@ -81,9 +82,18 @@ urls = ["http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dstripbooks&
 #for url in urls:
 textbooks = []
 
-for url in urlList.getURLIST():
-    textbooks.append(openWebPage.getPageFeatures(url))
+for i in range(0,len(urlList.getURLLIST())):
+    try:
+        file_to_open = urllib2.urlopen(urlList.getURLLIST()[i])
+        full_html_get_features = file_to_open.read()
+    #print openWebPage.getPageFeatures(url)
+        textbooks.append(openWebPage.getPageFeatures(full_html_get_features))
+    except urllib2.HTTPError:
+        print "Error sleep for 2 seconds"
+        time.sleep(2)
+        i = i-1
 
 for tb in textbooks:
-    trainTextbook(tb, textbooks)
-    
+    #trainTextbook(tb, textbooks)
+    tb.printSelf()
+        
